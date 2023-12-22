@@ -9,7 +9,7 @@ from workout_app.forms import ExerciseForm
 def home():
     return render_template("home.html")
 
-@app.route("/exercises", methods=['GET', 'POST'])
+@app.route("/exercises", methods=['GET', 'POST', 'DELETE'])
 def exercises():
     form = ExerciseForm()
     if request.method == 'POST':
@@ -27,6 +27,15 @@ def exercises():
         exercises = db.session.execute(
         db.select(Exercise).order_by(Exercise.title)).scalars()
         return render_template("exercises.html", exercises=exercises, form=form)
+    
+@app.route('/exercise/<int:exercise_id>', methods=['POST'])
+def delete_exercise(exercise_id):
+    exercise = Exercise.query.get_or_404(exercise_id)
+    # exercise = db.one_or_404(db.select(Exercise).filter_by(id=id))
+    db.session.delete(exercise)
+    db.session.commit()
+    flash('Exercise Deleted!', 'success')
+    return redirect(url_for('exercises'))
 
     
     
