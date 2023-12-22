@@ -16,4 +16,4 @@ class ExerciseForm(FlaskForm):
     equipment = StringField(
         'Equipment'
     )
-    create = SubmitField('Create')
+    create = SubmitField('Submit')
