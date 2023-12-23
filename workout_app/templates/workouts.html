@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+{% block content %}
+    <form action="{{ url_for('new_workout') }}">
+        <button class="btn btn-info">Create Workout</button>
+    </form>
+    {% for workout in workouts %}
+        <h1>{{workout.title}}</h1>
+        {% for exercise in workout.exercises %}
+            <p> {{exercise.title}}</p>
+        {% endfor %}
+        <form action="{{ url_for('delete_workout', workout_id=workout.id) }}" method="POST">
+            <button class="btn btn-danger">Delete Workout</button>
+        </form>
+
+        <form action="{{ url_for('update_workout', workout_id=workout.id) }}" method="GET">
+            <button class="btn btn-info">Update Workout</button>
+        </form>
+    {% endfor %}
+{% endblock content %}
